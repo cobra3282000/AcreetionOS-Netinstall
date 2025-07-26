@@ -71,7 +71,7 @@ mkdir -p /usr/share/backgrounds
 cp -r /backgrounds /usr/share/backgrounds
 rm -rf /backgrounds
 
-chsh -s /bin/bash root
+#chsh -s /bin/bash root
 
 echo "Defaults pwfeedback" | sudo EDITOR='tee -a' visudo >/dev/null 2>&1
 
