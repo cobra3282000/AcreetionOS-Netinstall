@@ -1,1 +1,1 @@
-mkarchiso -L AcreetionOS -v -o ../ISO . -C ./pacman.conf --j$nproc
+mkarchiso -L AcreetionOS-net-installer -v -o ../ISO . -C ./pacman.conf --j$nproc
