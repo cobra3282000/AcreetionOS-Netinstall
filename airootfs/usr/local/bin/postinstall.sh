@@ -14,8 +14,12 @@
 #
 ##############################################################################
 
- name=$(ls -1 /home)
- REAL_NAME=/home/$name
+echo "Starting AcreetionOS postinstall configuration..."
+
+echo "Detecting user account..."
+name=$(ls -1 /home)
+REAL_NAME=/home/$name
+echo "Found user: $name"
 
 # genfstab -U / > /etc/fstab
 
@@ -23,6 +27,7 @@
 #cp /cinnamon-configs/cinnamon-stuff/usr/bin/* /usr/bin/
 #cp -r /cinnamon-configs/cinnamon-stuff/usr/share/* /usr/share/
 
+echo "Creating user configuration directories..."
 mkdir /home/$name/.config
 mkdir /home/$name/.config/nemo
 #mkdir -p /home/$name/.local/share/cinnamon/extensions
@@ -31,24 +36,29 @@ mkdir /home/$name/.config/nemo
 
 #cp -r /cinnamon-configs/cinnamon-stuff/nemo/* /home/$name/.config/nemo
 
+echo "Copying Cinnamon configuration files..."
 cp -r /cinnamon-configs/cinnamon-stuff/.config/* /home/$name/.config/
 
+echo "Setting up autostart directory..."
 mkdir /home/$name/.config/autostart
 
+echo "Copying desktop autostart files..."
 cp -r /cinnamon-configs/dd.desktop /home/$name/.config/autostart
 
+echo "Setting file ownership for user configuration..."
 chown -R $name:$name /home/$name/.config
 chown -R $name:$name /middle.png
 #mv /middle.png /home/$USER
 
+echo "Copying shell and system configuration files..."
 cp -r /cinnamon-configs/.bashrc /home/$name/.bashrc
 cp -r /cinnamon-configs/.bashrc /root
 cp -r /cinnamon-configs/AcreetionOS.txt /root
 cp -r /cinnamon-configs/AcreetionOS.txt /home/$name/AcreetionOS.txt
 
-mv /resolv.conf /etc/resolv.conf
-chattr +i /etc/resolv.conf
-chattr +i /etc/os-release
+#mv /resolv.conf /etc/resolv.conf
+#chattr +i /etc/resolv.conf
+#chattr +i /etc/os-release
 
 # create python fix!
 
@@ -62,23 +72,29 @@ chattr +i /etc/os-release
 
 # cp -r /cinnamon-configs/cinnamon-stuff/extensions /home/$name/.local/share/cinnamon/
 
+echo "Copying AcreetionOS information file..."
 cp /cinnamon-configs/AcreetionOS.txt /home/$name/
 
+echo "Setting up system backgrounds..."
 mkdir -p /usr/share/backgrounds
 cp -r /backgrounds /usr/share/backgrounds
 rm -rf /backgrounds
 
 #chsh -s /bin/bash root
 
+echo "Configuring sudo settings..."
 echo "Defaults pwfeedback" | sudo EDITOR='tee -a' visudo >/dev/null 2>&1
 
+echo "Updating pacman configuration..."
 #cp -r /cinnamon-configs/spices/* /home/$name/.config/cinnamon/spices/
 cp /etc/pacman2.conf pacman.conf
-cp /mkinitcpio/mkinitcpio.conf /etc/mkinitcpio.conf
-cp /mkinitcpio/archiso.conf /etc/mkinitcpio.conf.d
-cp /cinnamon-configs/.nanorc /home/$name/.nanorc
+#cp /mkinitcpio/mkinitcpio.conf /etc/mkinitcpio.conf
+#cp /mkinitcpio/archiso.conf /etc/mkinitcpio.conf.d
+#cp /cinnamon-configs/.nanorc /home/$name/.nanorc
 
+echo "Cleaning up temporary files..."
 rm -rf /mkinitcpio
 rm -rf cinnamon-configs
 
-
+echo "AcreetionOS postinstall configuration completed successfully!"
+exit 0
